@@ -18,6 +18,8 @@ defmodule DocmapperPhxWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/test", DemoLive
   end
 
   # Other scopes may use custom stacks.
