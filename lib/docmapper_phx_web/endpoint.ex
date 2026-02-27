@@ -15,6 +15,9 @@ defmodule DocmapperPhxWeb.Endpoint do
     websocket: [connect_info: [session: @session_options]],
     longpoll: [connect_info: [session: @session_options]]
 
+  # custom health checkL /health returns 200 OK, skips everything else
+  plug DocmapperPhxWeb.Plug.HealthCheck
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # When code reloading is disabled (e.g., in production),

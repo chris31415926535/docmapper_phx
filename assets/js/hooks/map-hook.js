@@ -1,3 +1,4 @@
+// https://ivanmunguia.dev/blog/posts/integrating-mapbox-in-your-phoenix-liveview-application
 
 import { Map } from 'maplibre-gl';
 // import "../../node_modules/maplibre-gl/dist/maplibre-gl.css"
