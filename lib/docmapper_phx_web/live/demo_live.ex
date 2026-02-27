@@ -10,8 +10,11 @@ defmodule DocmapperPhxWeb.DemoLive do
     ~H"""
     <div class="docmapper-container">
       <.menu_bar />
-      <.search_bar />
-
+      <.search_bar genders={[
+        %{label: "a Man", value: "man"},
+        %{label: "a Woman", value: "woman"},
+        %{label: "Non-Binary", value: "non-binary"}
+      ]} />
       <div class="doclist">
         Howdy!!! {@count}
       </div>
@@ -20,8 +23,6 @@ defmodule DocmapperPhxWeb.DemoLive do
         <div id="map" class="docmap" phx-hook="MapHook" />
       </div>
 
-
-	
       <div class="footer">
         <button phx-click="test">click me</button>
       </div>
@@ -38,9 +39,35 @@ defmodule DocmapperPhxWeb.DemoLive do
   def search_bar(assigns) do
     ~H"""
     <div class="searchbar">
-      I'm looking for a ... who speaks ...
+      <form phx-change="search-update">
+        <span> I'm looking for a </span>
+        <span>
+          <select name="doctype">
+            <option value="doctor">doctor</option>
+          </select>
+        </span>
+        <span>who speaks</span>
+        <span>
+          <select name="language">
+            <option value="english">English</option>
+          </select>
+        </span>
+        <span>and who identifies as</span>
+        <span>
+          <select name="gender">
+            <%= for op <- @genders do %>
+              <option value={op.value}>{op.label}</option>
+            <% end %>
+          </select>
+        </span>
+      </form>
     </div>
     """
+  end
+
+  def handle_event("search-update", params, socket) do
+    IO.inspect(params)
+    {:noreply, socket}
   end
 
   def handle_event("test", _unsigned_params, socket) do
