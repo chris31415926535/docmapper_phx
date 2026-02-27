@@ -5,7 +5,8 @@
 @source "../css";
 @source "../js";
 @source "../../lib/docmapper_phx_web";
-
+@source "./docmapper.css"; 
+@import "../node_modules/maplibre-gl/dist/maplibre-gl.css";
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
    The heroicons installation itself is managed by your mix.exs */
 @plugin "../vendor/heroicons";
@@ -103,3 +104,42 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* This file is for your main application CSS */
+.docmapper-container {
+  display: grid;
+  grid-template-areas: "header header" "searchbar searchbar" "doclist docmap" "footer footer";
+  grid-template-columns: 1fr 3fr;
+  gap: 3px;
+  grid-template-rows: auto auto 1fr auto;
+  padding: 5px;
+  height: 100vh;
+  width: 100%;
+}
+
+
+.doclist {
+  grid-area: doclist; 
+}
+
+
+.menubar {
+  grid-area: header; height: 2em;
+}
+
+
+.footer {
+  grid-area: footer;  
+}
+
+.searchbar {
+  grid-area: searchbar;
+  color: blue;
+  background:beige;
+}
+
+.docmap-container {
+  grid-area: docmap;  
+}
+
+.docmap {
+  height: 100%;
+}

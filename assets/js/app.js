@@ -22,14 +22,49 @@ import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
-import {hooks as colocatedHooks} from "phoenix-colocated/docmapper_phx"
+// import {hooks as colocatedHooks} from "phoenix-colocated/docmapper_phx"
 import topbar from "../vendor/topbar"
+import Hooks from "./hooks/hooks.js";
+
+console.log(Hooks);
+console.log("sadfas")
+// import 'maplibre-gl/dist/maplibre-gl.css';
+// import {Map} from 'maplibre-gl';
+
+// const map = new Map({
+//   container: 'map',
+//   style: 'https://demotiles.maplibre.org/style.json',
+//   //   style: {
+//   //   "version": 8,
+//   //   "sources": {
+//   //     "osm": {
+//   //       "type": "raster",
+//   //       "tiles": ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"], // OSM Tile URL
+//   //       "tileSize": 256,
+//   //       "attribution": "© <a target=_blank href=https://openstreetmap.org/copyright>OpenStreetMap</a> contributors"
+//   //     }
+//   //   },
+//   //   "layers": [
+//   //     {
+//   //       "id": "osm-layer",
+//   //       "type": "raster",
+//   //       "source": "osm",
+//   //       "minzoom": 0,
+//   //       "maxzoom": 19
+//   //     }
+//   //   ]
+//   // },
+//   center: [0, 0],
+//   zoom: 2
+// });
+
+// console.log(map)
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 const liveSocket = new LiveSocket("/live", Socket, {
+  hooks: Hooks,
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken},
-  hooks: {...colocatedHooks},
 })
 
 // Show progress bar on live navigation and form submits

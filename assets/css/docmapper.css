@@ -1,0 +1,11 @@
+
+
+.container {
+  display: grid;
+  grid-template-areas: "header header" "searchbar searchbar" "doclist docmap" "footer footer";
+  grid-template-columns: 1fr 3fr;
+  gap: 3px;
+  grid-template-rows: auto auto 1fr auto;
+  padding: 5px;
+  height: 100vh;
+}
