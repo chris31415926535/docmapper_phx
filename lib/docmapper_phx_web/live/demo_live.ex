@@ -3,7 +3,9 @@ defmodule DocmapperPhxWeb.DemoLive do
   alias DocmapperPhxWeb.HardcodedValues
 
   def mount(_params, _session, socket) do
-    doctors = DocmapperPhx.Doctors.list_doctors()
+    doctors = DocmapperPhx.Doctors.search_doctors(
+      %{gender: "any", language: "English", doctype: "a Family Physician"}
+    )
 
     socket =
       socket
@@ -16,11 +18,16 @@ defmodule DocmapperPhxWeb.DemoLive do
   def render(assigns) do
     ~H"""
     <div class="docmapper-container">
-      {inspect @docs}
       <.menu_bar />
       <.search_bar genders={HardcodedValues.genders} />
       <div class="doclist">
         Howdy!!! {@count}
+
+        <ol>
+        <%= for doc <- @docs do %>
+    <li>{doc.name}: {doc.languages_spoken}, {doc.specialty}</li>
+        <% end %>
+        </ol>
       </div>
 
       <div id="docmap-container" class="docmap-container" phx-update="ignore">
@@ -75,7 +82,11 @@ defmodule DocmapperPhxWeb.DemoLive do
 
   def handle_event("search-update", params, socket) do
     IO.inspect(params)
-    {:noreply, socket}
+    doctors = DocmapperPhx.Doctors.search_doctors(
+      %{gender: "any", language: "English", doctype: "a Family Physician"}
+    )
+
+    {:noreply, assign(socket, docs: doctors)}
   end
 
   def handle_event("test", _unsigned_params, socket) do

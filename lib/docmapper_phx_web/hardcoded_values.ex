@@ -4,9 +4,10 @@ defmodule DocmapperPhxWeb.HardcodedValues do
   """
   def genders do
     [
-      %{label: "a Man", value: "man"},
-      %{label: "a Woman", value: "woman"},
-      %{label: "Non-Binary", value: "non-binary"}
+      %{label: "Any Gender", value: "any"},
+      %{label: "a Man", value: "Male"},
+      %{label: "a Woman", value: "Female"},
+      %{label: "Non-Binary", value: "Non-Binary"}
     ]
   end
 
