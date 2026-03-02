@@ -3,9 +3,12 @@ defmodule DocmapperPhxWeb.DemoLive do
   alias DocmapperPhxWeb.HardcodedValues
 
   def mount(_params, _session, socket) do
-    doctors = DocmapperPhx.Doctors.search_doctors(
-      %{gender: "any", language: "English", doctype: "a Family Physician"}
-    )
+    doctors =
+      DocmapperPhx.Doctors.search_doctors(%{
+        gender: "any",
+        language: "English",
+        doctype: "a Family Physician"
+      })
 
     socket =
       socket
@@ -19,15 +22,11 @@ defmodule DocmapperPhxWeb.DemoLive do
     ~H"""
     <div class="docmapper-container">
       <.menu_bar />
-      <.search_bar genders={HardcodedValues.genders} />
+      <.search_bar genders={HardcodedValues.genders()} />
       <div class="doclist">
         Howdy!!! {@count}
 
-        <ol>
-        <%= for doc <- @docs do %>
-    <li>{doc.name}: {doc.languages_spoken}, {doc.specialty}</li>
-        <% end %>
-        </ol>
+        {inspect(length(@docs))}
       </div>
 
       <div id="docmap-container" class="docmap-container" phx-update="ignore">
@@ -51,30 +50,36 @@ defmodule DocmapperPhxWeb.DemoLive do
     ~H"""
     <div class="searchbar">
       <form phx-change="search-update">
-        <span> I'm looking for a </span>
-        <span>
-          <select name="doctype">
-          <%= for doc_type <- HardcodedValues.doc_types do %>
-            <option value={doc_type}>{doc_type}</option>
-            <% end %>
-          </select>
-        </span>
-        <span>who speaks</span>
-        <span>
-          <select name="language">
-          <%= for language <- HardcodedValues.languages do %>
-            <option value={language}>{language}</option>
-          <% end %>
-          </select>
-        </span>
-        <span>and who identifies as</span>
-        <span>
-          <select name="gender">
-            <%= for op <- @genders do %>
-              <option value={op.value}>{op.label}</option>
-            <% end %>
-          </select>
-        </span>
+        <div>
+          <span> I'm looking for </span>
+          <span>
+            <select name="doctype">
+              <%= for doc_type <- HardcodedValues.doc_types do %>
+                <option value={doc_type}>{doc_type}</option>
+              <% end %>
+            </select>
+          </span>
+        </div>
+        <div>
+          <span>Who speaks</span>
+          <span>
+            <select name="language">
+              <%= for language <- HardcodedValues.languages do %>
+                <option value={language}>{language}</option>
+              <% end %>
+            </select>
+          </span>
+        </div>
+        <div>
+          <span>And who identifies as</span>
+          <span>
+            <select name="gender">
+              <%= for op <- @genders do %>
+                <option value={op.value}>{op.label}</option>
+              <% end %>
+            </select>
+          </span>
+        </div>
       </form>
     </div>
     """
@@ -82,9 +87,7 @@ defmodule DocmapperPhxWeb.DemoLive do
 
   def handle_event("search-update", params, socket) do
     IO.inspect(params)
-    doctors = DocmapperPhx.Doctors.search_doctors(
-      %{gender: "any", language: "English", doctype: "a Family Physician"}
-    )
+    doctors = DocmapperPhx.Doctors.search_doctors(params)
 
     {:noreply, assign(socket, docs: doctors)}
   end

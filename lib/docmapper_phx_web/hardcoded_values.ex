@@ -15,7 +15,7 @@ defmodule DocmapperPhxWeb.HardcodedValues do
 
   def doc_types do
     [
-      "A Family Physician",
+      "a Family Physician",
       "Any Physician",
       "Addiction Medicine",
       "Adolescent Medicine",

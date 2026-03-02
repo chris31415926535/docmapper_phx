@@ -29,43 +29,53 @@ defmodule DocmapperPhx.Doctors do
       |> filter_gender(params)
       |> filter_doctype(params)
       |> filter_language(params)
-      |> limit(10)
+
+    # |> limit(10)
 
     Repo.all(query)
   end
 
-
-  def filter_gender(query, %{gender: gender}) when gender in ["Male", "Female", "Non-Binary"] do
+  def filter_gender(query, %{"gender" => gender})
+      when gender in ["Male", "Female", "Non-Binary"] do
     query
     |> where([d], d.gender == ^gender)
   end
 
   def filter_gender(query, _params), do: query
-  
-  def filter_doctype(query, %{doctype: "a Family Physician"}) do
+
+  def filter_doctype(query, %{"doctype" => "a Family Physician"}) do
     query
     |> where([d], d.famdoc == true)
   end
 
-  def filter_doctype(query, %{doctype: "Any Physician"}) do
+  def filter_doctype(query, %{"doctype" => "Any Physician"}) do
     query
   end
 
   # use a partial lower-case match for docs with many specialties
-  def filter_doctype(query, %{doctype: specialty}) do
+  def filter_doctype(query, %{"doctype" => specialty}) do
     search_string = "%#{specialty}%"
 
     query
     |> where([d], ilike(d.specialty, ^search_string))
   end
 
-  def filter_language(query, %{language: language}) do
+  def filter_doctype(query, params) do
+    IO.inspect(params, label: "*** filter_doctype failed with these params")
+    query
+  end
+
+  def filter_language(query, %{"language" => language}) do
     search_string = "%#{language}%"
 
     query
     |> where([d], ilike(d.languages_spoken, ^search_string))
   end
 
+  def filter_language(query, params) do
+    IO.inspect(params, label: "*** filter_language failed with these params")
+    query
+  end
   @doc """
   Gets a single doctor.
 
