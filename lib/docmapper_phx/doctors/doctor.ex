@@ -2,8 +2,10 @@ defmodule DocmapperPhx.Doctors.Doctor do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:cpso, :integer, autogenerate: false}
+
   schema "doctors" do
-    field :cpso, :integer
+    # field :cpso, :integer
     field :name, :string
     field :specialty, :string
     field :gender, :string
@@ -14,7 +16,9 @@ defmodule DocmapperPhx.Doctors.Doctor do
     field :lon, :float
     field :famdoc, :boolean, default: false
 
-    timestamps(type: :utc_datetime)
+
+    # don't care about this
+    # timestamps(type: :utc_datetime)
   end
 
   @doc false
