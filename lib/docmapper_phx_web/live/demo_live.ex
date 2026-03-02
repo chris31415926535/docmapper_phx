@@ -2,13 +2,20 @@ defmodule DocmapperPhxWeb.DemoLive do
   use Phoenix.LiveView
 
   def mount(_params, _session, socket) do
-    socket = assign(socket, :count, 0)
+    doctors = DocmapperPhx.Doctors.list_doctors()
+
+    socket =
+      socket
+      |> assign(:count, 0)
+      |> assign(:docs, doctors)
+
     {:ok, socket}
   end
 
   def render(assigns) do
     ~H"""
     <div class="docmapper-container">
+      {inspect @docs}
       <.menu_bar />
       <.search_bar genders={[
         %{label: "a Man", value: "man"},

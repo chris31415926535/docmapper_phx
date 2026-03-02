@@ -1,0 +1,22 @@
+defmodule DocmapperPhx.Repo.Migrations.InitializeDocs do
+  use Ecto.Migration
+
+  def change do
+    create table(:docs, primary_key: false) do
+      add :cpso, :integer, primary_key: true
+      add :name, :string
+      add :specialty, :string
+      add :gender, :string
+      add :primary_location, :string
+      add :languages_spoken, :string
+      add :phone_number, :string
+      add :lat, :float
+      add :lon, :float
+      add :famdoc, :boolean
+    end
+
+    create index(:docs, [:specialty])
+    create index(:docs, [:gender])
+    create index(:docs, [:languages_spoken])
+  end
+end
