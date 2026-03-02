@@ -1,5 +1,6 @@
 defmodule DocmapperPhxWeb.DemoLive do
   use Phoenix.LiveView
+  alias DocmapperPhxWeb.HardcodedValues
 
   def mount(_params, _session, socket) do
     doctors = DocmapperPhx.Doctors.list_doctors()
@@ -17,11 +18,7 @@ defmodule DocmapperPhxWeb.DemoLive do
     <div class="docmapper-container">
       {inspect @docs}
       <.menu_bar />
-      <.search_bar genders={[
-        %{label: "a Man", value: "man"},
-        %{label: "a Woman", value: "woman"},
-        %{label: "Non-Binary", value: "non-binary"}
-      ]} />
+      <.search_bar genders={HardcodedValues.genders} />
       <div class="doclist">
         Howdy!!! {@count}
       </div>
@@ -50,13 +47,17 @@ defmodule DocmapperPhxWeb.DemoLive do
         <span> I'm looking for a </span>
         <span>
           <select name="doctype">
-            <option value="doctor">doctor</option>
+          <%= for doc_type <- HardcodedValues.doc_types do %>
+            <option value={doc_type}>{doc_type}</option>
+            <% end %>
           </select>
         </span>
         <span>who speaks</span>
         <span>
           <select name="language">
-            <option value="english">English</option>
+          <%= for language <- HardcodedValues.languages do %>
+            <option value={language}>{language}</option>
+          <% end %>
           </select>
         </span>
         <span>and who identifies as</span>
