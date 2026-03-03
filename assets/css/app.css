@@ -108,11 +108,12 @@
 /* This file is for your main application CSS */
 .docmapper-container {
   display: grid;
-  grid-template-areas: "header header" "searchbar searchbar" "doclist docmap" "footer footer";
+  /* grid-template-areas: "header header" "searchbar searchbar" "doclist docmap" "footer footer"; */
+  grid-template-areas: "header header" "searchbar searchbar" "docmap docmap" "footer footer";
   grid-template-columns: 1fr 3fr;
   gap: 3px;
   grid-template-rows: auto auto 1fr auto;
-  padding: 5px;
+  padding: 0px;
   height: 100vh;
   width: 100%;
 }
@@ -124,19 +125,25 @@
 
 
 .menubar {
-  grid-area: header; height: 2em;
+  grid-area: header;
+  height: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #2d6ebe;
+
 }
 
 
 .footer {
+  color: white;
   grid-area: footer;  
+  background-color: #2d6ebe;
+  font-weight: bold;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
-.searchbar {
-  grid-area: searchbar;
-  color: blue;
-  background:beige;
-}
 
 .docmap-container {
   grid-area: docmap;  
@@ -279,4 +286,22 @@
 	.leaflet-tooltip{
     width: 300px !important;
     white-space: normal !important ;
+}
+
+
+.header-title {
+    font-size: 1.5em;
+    color: white;
+}
+
+.searchbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; 
+  grid-area: searchbar;
+}
+
+.searchbar th {
+  text-align: end;
+  padding-right: 10px;
 }

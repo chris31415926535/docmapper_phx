@@ -63,11 +63,6 @@ defmodule DocmapperPhxWeb.DemoLive do
     <div class="docmapper-container">
       <.menu_bar />
       <.search_bar genders={HardcodedValues.genders()} full_params={@full_params} />
-      <div class="doclist">
-        Howdy!!! {@count}
-
-        {inspect(length(@docs))}
-      </div>
 
       <div id="docmap-container" class="docmap-container" phx-update="ignore">
         <div id="map" class="docmap" phx-hook="LeafletHook" />
@@ -77,7 +72,7 @@ defmodule DocmapperPhxWeb.DemoLive do
         <div>
           <p>
             Hand-crafted with ❤️ in Canada 🍁 by
-            <a href="https://www.belangeranalytics.com" target="_blank"> Belanger Analytics</a>
+            <a href="https://www.belangeranalytics.com" target="_blank" style="text-decoration: underline;"> Belanger Analytics</a>
           </p>
         </div>
         <!--        <button phx-click="test">click me</button> -->
@@ -88,7 +83,9 @@ defmodule DocmapperPhxWeb.DemoLive do
 
   def menu_bar(assigns) do
     ~H"""
-    <div class="menubar">MENU SHOULD BE ON ITS OWN LINE</div>
+    <div class="menubar">
+      <div class="header-title">🩺DocMapper</div>
+    </div>
     """
   end
 
@@ -96,36 +93,44 @@ defmodule DocmapperPhxWeb.DemoLive do
     ~H"""
     <div class="searchbar">
       <form phx-change="search-update">
-        <div>
-          <span> I'm looking for </span>
-          <span>
-            <select name="doctype">
-              <%= for doc_type <- HardcodedValues.doc_types do %>
-                <option value={doc_type} selected={@full_params["doctype"] == doc_type}>{doc_type}</option>
-              <% end %>
-            </select>
-          </span>
-        </div>
-        <div>
-          <span>Who speaks</span>
-          <span>
-            <select name="language" >
-              <%= for language <- HardcodedValues.languages do %>
-                <option value={language} selected={@full_params["language"] == language}>{language}</option>
-              <% end %>
-            </select>
-          </span>
-        </div>
-        <div>
-          <span>And who identifies as</span>
-          <span>
-            <select name="gender">
-              <%= for gender <- @genders do %>
-                <option value={gender.value} selected={@full_params["gender"] == gender.value}>{gender.label}</option>
-              <% end %>
-            </select>
-          </span>
-        </div>
+        <table>
+          <tr>
+            <th>I'm looking for</th>
+            <td>
+              <select name="doctype">
+                <%= for doc_type <- HardcodedValues.doc_types do %>
+                  <option value={doc_type} selected={@full_params["doctype"] == doc_type}>
+                    {doc_type}
+                  </option>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>Who speaks</th>
+            <td>
+              <select name="language">
+                <%= for language <- HardcodedValues.languages do %>
+                  <option value={language} selected={@full_params["language"] == language}>
+                    {language}
+                  </option>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>And who identifies as</th>
+            <td>
+              <select name="gender">
+                <%= for gender <- @genders do %>
+                  <option value={gender.value} selected={@full_params["gender"] == gender.value}>
+                    {gender.label}
+                  </option>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+        </table>
       </form>
     </div>
     """
