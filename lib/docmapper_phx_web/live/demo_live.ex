@@ -21,7 +21,7 @@ defmodule DocmapperPhxWeb.DemoLive do
   end
 
   def handle_params(params, _uri, socket) do
-    IO.inspect(params, label: "params")
+    # IO.inspect(params, label: "params")
 
     full_params =
       Map.merge(
@@ -44,16 +44,15 @@ defmodule DocmapperPhxWeb.DemoLive do
     # NOTE: DOC SEARCH HAPPENS HERE
     doctors = DocmapperPhx.Doctors.search_doctors(full_params)
     {:ok, doctors_json} = Jason.encode(doctors)
-    IO.inspect(doctors_json, label: "doctors_json")
+
+    # IO.inspect(doctors_json, label: "doctors_json")
+
     # UPDATE SOCKET
     socket =
       socket
       |> assign(full_params: full_params)
       |> assign(docs: doctors)
       |> push_event("new-docs", %{data: doctors_json})
-
-    # TODO: PUSH NEW DATA TO CLIENT
-    # |> push_event("update-map-boundaries", full_params)
 
     {:noreply, socket}
   end
@@ -66,16 +65,22 @@ defmodule DocmapperPhxWeb.DemoLive do
 
       <div id="docmap-container" class="docmap-container" phx-update="ignore">
         <div id="map" class="docmap" phx-hook="LeafletHook" />
+        <div id="toast">More than 100 results found. Zoom in to see more!</div>
       </div>
 
       <div class="footer">
         <div>
           <p>
             Hand-crafted with ❤️ in Canada 🍁 by
-            <a href="https://www.belangeranalytics.com" target="_blank" style="text-decoration: underline;"> Belanger Analytics</a>
+            <a
+              href="https://www.belangeranalytics.com"
+              target="_blank"
+              style="text-decoration: underline;"
+            >
+              Belanger Analytics
+            </a>
           </p>
         </div>
-        <!--        <button phx-click="test">click me</button> -->
       </div>
     </div>
     """
@@ -135,6 +140,7 @@ defmodule DocmapperPhxWeb.DemoLive do
     </div>
     """
   end
+
 
   def handle_event("search-update", params, socket) do
     IO.inspect(params)

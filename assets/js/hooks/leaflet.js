@@ -164,11 +164,20 @@ const leafletHook = {
 
     // new docs from server!
     this.handleEvent("new-docs", (spec) => {
-      console.log("new-docs received from server wowwwwwww")
       // console.log(spec.data)
       docs = JSON.parse(spec.data)
-      console.log(docs);
-      // console.log(docs)
+
+      const toast = document.getElementById("toast")
+      console.log(docs.length)
+      console.log(toast)
+
+      if (docs.length >= 100) {
+        console.log(">=100 docs")
+        toast.classList.remove("hidden")
+      } else {
+        console.log("<100 docs")
+        toast.classList.add("hidden")
+      }
 
       // remove previous docs
       // only remove the layer if it has been defined

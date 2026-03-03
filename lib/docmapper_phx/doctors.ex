@@ -30,7 +30,7 @@ defmodule DocmapperPhx.Doctors do
       |> filter_doctype(params)
       |> filter_language(params)
       |> filter_geo(params)
-    # |> limit(10)
+      |> limit(100)
 
     Repo.all(query)
     |> IO.inspect(label: "new docs")
