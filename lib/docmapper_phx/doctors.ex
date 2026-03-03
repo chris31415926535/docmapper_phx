@@ -29,10 +29,11 @@ defmodule DocmapperPhx.Doctors do
       |> filter_gender(params)
       |> filter_doctype(params)
       |> filter_language(params)
-
+      |> filter_geo(params)
     # |> limit(10)
 
     Repo.all(query)
+    # |> IO.inspect(label: "new docs")
   end
 
   def filter_gender(query, %{"gender" => gender})
@@ -76,6 +77,33 @@ defmodule DocmapperPhx.Doctors do
     IO.inspect(params, label: "*** filter_language failed with these params")
     query
   end
+
+
+  ### FILTER FOR GEOGRAPHY
+  def filter_geo(
+        query,
+        %{"neLon" => neLon, "neLat" => neLat, "swLon" => swLon, "swLat" => swLat} = _params
+      ) do
+    latMin = swLat
+    latMax = neLat
+    lonMin = swLon
+    lonMax = neLon
+
+    query
+    |> where(
+      [d],
+      d.lat > ^latMin and
+        d.lat < ^latMax and
+        d.lon > ^lonMin and
+        d.lon < ^lonMax
+    )
+  end
+
+  # def filter_geo(query, _params), do: query
+
+
+
+  
   @doc """
   Gets a single doctor.
 

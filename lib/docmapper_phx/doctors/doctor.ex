@@ -3,7 +3,8 @@ defmodule DocmapperPhx.Doctors.Doctor do
   import Ecto.Changeset
 
   @primary_key {:cpso, :integer, autogenerate: false}
-
+  # MUST SPECIFY WHICH FIELDS GET SENT TO CLIENT!
+  @derive {Jason.Encoder, only: [:cpso, :name, :gender, :lat, :lon]}
   schema "doctors" do
     # field :cpso, :integer
     field :name, :string
