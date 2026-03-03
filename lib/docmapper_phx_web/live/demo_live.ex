@@ -44,6 +44,7 @@ defmodule DocmapperPhxWeb.DemoLive do
     # NOTE: DOC SEARCH HAPPENS HERE
     doctors = DocmapperPhx.Doctors.search_doctors(full_params)
     {:ok, doctors_json} = Jason.encode(doctors)
+    IO.inspect(doctors_json, label: "doctors_json")
     # UPDATE SOCKET
     socket =
       socket

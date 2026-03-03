@@ -33,7 +33,7 @@ defmodule DocmapperPhx.Doctors do
     # |> limit(10)
 
     Repo.all(query)
-    # |> IO.inspect(label: "new docs")
+    |> IO.inspect(label: "new docs")
   end
 
   def filter_gender(query, %{"gender" => gender})

@@ -32,189 +32,193 @@ import 'leaflet.markercluster';
 // .Icon.Default.prototype.options.iconUrl = "/images/marker-icon.png";
 
 const getFormattedBounds = (map) => {
-    const newBoundsFromLeaflet = map.getBounds();
+  const newBoundsFromLeaflet = map.getBounds();
 
-    const newBounds = {
-        northEast: newBoundsFromLeaflet.getNorthEast(),
-        southWest: newBoundsFromLeaflet.getSouthWest()
-    };
+  const newBounds = {
+    northEast: newBoundsFromLeaflet.getNorthEast(),
+    southWest: newBoundsFromLeaflet.getSouthWest()
+  };
 
-    const newMapCenter = map.getCenter();
+  const newMapCenter = map.getCenter();
 
-    const newZoom = map.getZoom();
+  const newZoom = map.getZoom();
 
-    const formattedBounds = {
-        neLat: newBounds.northEast.lat,
-        neLon: newBounds.northEast.lng,
-        swLat: newBounds.southWest.lat,
-        swLon: newBounds.southWest.lng,
-        mapCenterLat: newMapCenter.lat,
-        mapCenterLon: newMapCenter.lng,
-        mapZoom: newZoom
-    };
+  const formattedBounds = {
+    neLat: newBounds.northEast.lat,
+    neLon: newBounds.northEast.lng,
+    swLat: newBounds.southWest.lat,
+    swLon: newBounds.southWest.lng,
+    mapCenterLat: newMapCenter.lat,
+    mapCenterLon: newMapCenter.lng,
+    mapZoom: newZoom
+  };
 
-    return formattedBounds;
+  return formattedBounds;
 } // end function getFormattedBounds(map)
 
 const leafletHook = {
-    
-     
-
-    mounted() {
-        console.log("hook mounted???!!! ", new Date().toString() )
-         /* CHECK IF WE SUPPORT TOUCH INPUT -- IF SO WE WILL DISABLE HOVER LABELS*/
-        const browserSupportsTouch = navigator.maxTouchPoints > 0;
-        if (browserSupportsTouch) {
-            console.log("SUPPORTS TOUCH!")
-        }
-
-        params = new URLSearchParams(window.location.search);
-        // console.log (params)
-
-        var map = L.map(this.el)
-
-        // initialize map layer for physicians
-        let docLayer;
-
-        if (
-            params.has("mapCenterLat") &&
-            params.has("mapCenterLon") &&
-            params.has("mapZoom") 
-        ) {
-            map.setView([params.get("mapCenterLat"),  params.get("mapCenterLon")], params.get("mapZoom") );
-            // drop a marker at the map centre
-            // L.marker([params.get("mapCenterLat"),  params.get("mapCenterLon")]).addTo(map)
-            //     .bindPopup('A pretty CSS popup.<br> Easily customizable.')
-            //     .openPopup();
-        } else {
-            map.setView([45.40977921176112, -75.6670323159904], 13);
-            // L.marker([51.505, -0.09]).addTo(map)
-            //     .bindPopup('A pretty CSS popup.<br> Easily customizable.')
-            //     .openPopup();
-        }
-       
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
 
 
 
-
-        // test handling event to add a marker
-        this.handleEvent("A", (spec) => {
-            console.log("add-random-marker received")
-            formattedBounds = getFormattedBounds(map);
-            const newLat = formattedBounds.mapCenterLat + (Math.random() - 0.5)/10;
-            const newLon = formattedBounds.mapCenterLon + (Math.random() - 0.5)/10;
-
-            console.log("adding a random marker at ", newLat, ", ", newLon)
-            L.marker([newLat, newLon]).addTo(map)
-        })
-
-        // test handling event where new parameters are pushed, we may need to update the map
-        // primarily this will be loading a page for the first time with specific query parameters
-        // i.e. making sure that the url query parameters (interpreted and sent by the server) match the 
-        // actual boundaries of the map in the client. 
-        // if they match, we do nothing.
-        // if they don't match, we update the map on the client.
-        this.handleEvent("update-map-boundaries", (serverBounds) => {
-            console.log("update-map-boundaries received")
-
-            // convert string values to floats
-            Object.keys(serverBounds).forEach(
-                (key, _index) => serverBounds[key] = parseFloat(serverBounds[key])
-            );
-  
-            // console.log(serverBounds)
-            clientBounds = getFormattedBounds(map);
-
-            // check if client and server are in sync; if so, we stop here and return
-            if (
-                serverBounds.mapCenterLat === clientBounds.mapCenterLat &&
-                serverBounds.mapCenterLon === clientBounds.mapCenterLon &&
-                serverBounds.mapZoom === clientBounds.mapZoom &&
-                serverBounds.neLat === clientBounds.neLat &&
-                serverBounds.swLat === clientBounds.swLat &&
-                serverBounds.swLon === clientBounds.swLon 
-            ) {
-                console.log("no change")
-                return;
-            }
-
-            
-            // console.log(JSON.stringify(serverBounds))
-            // console.log(JSON.stringify(clientBounds))
-
-            // the server and client params are out of sync, so update the client to match the server
-            map.setView([serverBounds.mapCenterLat, serverBounds.mapCenterLon]).setZoom(serverBounds.mapZoom);
-
-       }) // end  this.handleEvent("update-map-boundaries", ...
-
-
-         // add event listener on drag/zoom to link search area to map bounds
-         map.addEventListener("dragend zoom", () => {
-
-            formattedBounds = getFormattedBounds(map);
-            console.log("client hook: map move")
-            // console.log(formattedBounds)
-            this.pushEvent("map-boundaries-change", formattedBounds)
-
-        }) // end map.addEventListener("dragend zoom"...
-
-
-        // new docs from server!
-        this.handleEvent("new-docs", (spec) => {  
-            console.log("new-docs received from server wowwwwwww")
-            // console.log(spec.data)
-            docs = JSON.parse(spec.data)
-            // console.log(docs)
-
-            // remove previous docs
-            // only remove the layer if it has been defined
-            if (docLayer) { map.removeLayer(docLayer) }
-
-            // add the docs here.. 
-            realDocMarkers = docs.map((doc) => {
-                if (!doc) return null;
-                if (!doc.lat || !doc.lon) return null;
-
-                const label = (`<b>Name:</b> ${doc.name}
-                <br><b>Gender:</b> ${doc.gender}
-                <br><b>Specialty:</b> ${doc.specialties}
-                <br><b>Languages:</b> ${doc.languages_spoken}                
-                <br><b>Address:</b> ${doc.primary_location}`)
-// ${doc.phone_number !== "NA" ? "<br><b>Phone Number:</b> " + doc.phone_number : ""}
-
-                const newMarker = L.marker([doc.lat, doc.lon])
-                    .bindPopup(label);
-
-                // only bind tooltips if they're not using a touch browser
-                if (!browserSupportsTouch) {
-                    newMarker.bindTooltip(label, { className: 'myTooltip' });
-                } // end if (!browserSupportsTouch)
-
-                return newMarker;
-            }).flatMap((docMarker) => docMarker ? [docMarker] : []);
-
-
-            // console.log(realDocMarkers)
-            // add markers to layer
-            // docLayer = L.layerGroup(realDocMarkers)
-            // docLayer = L.markerClusterGroup(realDocMarkers) ;
-            // add layer to map
-     // console.log(docLayer)
-            
-            // map.addLayer(docLayer);
-            docLayer = L.markerClusterGroup({animate: false});
-            realDocMarkers.map(marker => docLayer.addLayer(marker))
-            map.addLayer(docLayer);
-
-       
-
-        })
-
-        
+  mounted() {
+    console.log("hook mounted???!!! ", new Date().toString())
+    /* CHECK IF WE SUPPORT TOUCH INPUT -- IF SO WE WILL DISABLE HOVER LABELS*/
+    const browserSupportsTouch = navigator.maxTouchPoints > 0;
+    if (browserSupportsTouch) {
+      console.log("SUPPORTS TOUCH!")
     }
+
+    params = new URLSearchParams(window.location.search);
+    // console.log (params)
+
+    var map = L.map(this.el)
+
+    // initialize map layer for physicians
+    let docLayer;
+
+    if (
+      params.has("mapCenterLat") &&
+      params.has("mapCenterLon") &&
+      params.has("mapZoom")
+    ) {
+      map.setView([params.get("mapCenterLat"), params.get("mapCenterLon")], params.get("mapZoom"));
+      // drop a marker at the map centre
+      // L.marker([params.get("mapCenterLat"),  params.get("mapCenterLon")]).addTo(map)
+      //     .bindPopup('A pretty CSS popup.<br> Easily customizable.')
+      //     .openPopup();
+    } else {
+      map.setView([45.40977921176112, -75.6670323159904], 13);
+      // L.marker([51.505, -0.09]).addTo(map)
+      //     .bindPopup('A pretty CSS popup.<br> Easily customizable.')
+      //     .openPopup();
+    }
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+
+
+
+    // test handling event to add a marker
+    this.handleEvent("A", (spec) => {
+      console.log("add-random-marker received")
+      formattedBounds = getFormattedBounds(map);
+      const newLat = formattedBounds.mapCenterLat + (Math.random() - 0.5) / 10;
+      const newLon = formattedBounds.mapCenterLon + (Math.random() - 0.5) / 10;
+
+      console.log("adding a random marker at ", newLat, ", ", newLon)
+      L.marker([newLat, newLon]).addTo(map)
+    })
+
+    // test handling event where new parameters are pushed, we may need to update the map
+    // primarily this will be loading a page for the first time with specific query parameters
+    // i.e. making sure that the url query parameters (interpreted and sent by the server) match the 
+    // actual boundaries of the map in the client. 
+    // if they match, we do nothing.
+    // if they don't match, we update the map on the client.
+    this.handleEvent("update-map-boundaries", (serverBounds) => {
+      console.log("update-map-boundaries received")
+
+      // convert string values to floats
+      Object.keys(serverBounds).forEach(
+        (key, _index) => serverBounds[key] = parseFloat(serverBounds[key])
+      );
+
+      // console.log(serverBounds)
+      clientBounds = getFormattedBounds(map);
+
+      // check if client and server are in sync; if so, we stop here and return
+      if (
+        serverBounds.mapCenterLat === clientBounds.mapCenterLat &&
+        serverBounds.mapCenterLon === clientBounds.mapCenterLon &&
+        serverBounds.mapZoom === clientBounds.mapZoom &&
+        serverBounds.neLat === clientBounds.neLat &&
+        serverBounds.swLat === clientBounds.swLat &&
+        serverBounds.swLon === clientBounds.swLon
+      ) {
+        console.log("no change")
+        return;
+      }
+
+
+      // console.log(JSON.stringify(serverBounds))
+      // console.log(JSON.stringify(clientBounds))
+
+      // the server and client params are out of sync, so update the client to match the server
+      map.setView([serverBounds.mapCenterLat, serverBounds.mapCenterLon]).setZoom(serverBounds.mapZoom);
+
+    }) // end  this.handleEvent("update-map-boundaries", ...
+
+
+    // add event listener on drag/zoom to link search area to map bounds
+    map.addEventListener("dragend zoom", () => {
+
+      formattedBounds = getFormattedBounds(map);
+      console.log("client hook: map move")
+      // console.log(formattedBounds)
+      this.pushEvent("map-boundaries-change", formattedBounds)
+
+    }) // end map.addEventListener("dragend zoom"...
+
+
+    // new docs from server!
+    this.handleEvent("new-docs", (spec) => {
+      console.log("new-docs received from server wowwwwwww")
+      // console.log(spec.data)
+      docs = JSON.parse(spec.data)
+      console.log(docs);
+      // console.log(docs)
+
+      // remove previous docs
+      // only remove the layer if it has been defined
+      if (docLayer) { map.removeLayer(docLayer) }
+
+      // add the docs here.. 
+      realDocMarkers = docs.map((doc) => {
+        if (!doc) return null;
+        if (!doc.lat || !doc.lon) return null;
+
+        const label = (`
+        <div style="max-width:300px; overflow-wrap: break-word !important; word-break: break-word !important;">
+                <b>Name:</b> ${doc.name}
+                <br><b>Gender:</b> ${doc.gender}
+                <br><b>Specialty:</b> ${doc.specialty}
+                <br><b>Languages:</b> ${doc.languages_spoken}                
+                <br><b>Address:</b> ${doc.primary_location}
+                ${doc.phone_number !== "NA" ? "<br><b>Phone Number:</b> " + doc.phone_number : ""}
+        </div>`)
+
+        const newMarker = L.marker([doc.lat, doc.lon])
+          .bindPopup(label);
+
+        // only bind tooltips if they're not using a touch browser
+        if (!browserSupportsTouch) {
+          newMarker.bindTooltip(label, { className: 'myTooltip' });
+        } // end if (!browserSupportsTouch)
+
+        return newMarker;
+      }).flatMap((docMarker) => docMarker ? [docMarker] : []);
+
+
+      // console.log(realDocMarkers)
+      // add markers to layer
+      // docLayer = L.layerGroup(realDocMarkers)
+      // docLayer = L.markerClusterGroup(realDocMarkers) ;
+      // add layer to map
+      // console.log(docLayer)
+
+      // map.addLayer(docLayer);
+      docLayer = L.markerClusterGroup({ animate: false });
+      realDocMarkers.map(marker => docLayer.addLayer(marker))
+      map.addLayer(docLayer);
+
+
+
+    })
+
+
+  }
 };
 
 export default leafletHook;

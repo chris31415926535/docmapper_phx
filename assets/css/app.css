@@ -273,3 +273,10 @@
 .marker-cluster span {
 	line-height: 30px;
 	}
+
+
+
+	.leaflet-tooltip{
+    width: 300px !important;
+    white-space: normal !important ;
+}

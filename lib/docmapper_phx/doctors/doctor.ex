@@ -4,7 +4,7 @@ defmodule DocmapperPhx.Doctors.Doctor do
 
   @primary_key {:cpso, :integer, autogenerate: false}
   # MUST SPECIFY WHICH FIELDS GET SENT TO CLIENT!
-  @derive {Jason.Encoder, only: [:cpso, :name, :gender, :lat, :lon]}
+  @derive {Jason.Encoder, only: [:cpso, :name, :primary_location, :specialty, :languages_spoken, :phone_number, :gender, :lat, :lon]}
   schema "doctors" do
     # field :cpso, :integer
     field :name, :string
