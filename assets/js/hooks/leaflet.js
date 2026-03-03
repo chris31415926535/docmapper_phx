@@ -3,6 +3,7 @@
 import 'leaflet';
 // import css for markercluster
 import 'leaflet.markercluster';
+import { ZoomDependentExpression } from 'maplibre-gl';
 // import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 // import "leaflet.markercluster/dist/MarkerCluster.css"
 
@@ -61,7 +62,6 @@ const leafletHook = {
 
 
   mounted() {
-    console.log("hook mounted???!!! ", new Date().toString())
     /* CHECK IF WE SUPPORT TOUCH INPUT -- IF SO WE WILL DISABLE HOVER LABELS*/
     const browserSupportsTouch = navigator.maxTouchPoints > 0;
     if (browserSupportsTouch) {
@@ -164,18 +164,18 @@ const leafletHook = {
 
     // new docs from server!
     this.handleEvent("new-docs", (spec) => {
-      // console.log(spec.data)
       docs = JSON.parse(spec.data)
 
+      // show toast if >100 docs
       const toast = document.getElementById("toast")
-      console.log(docs.length)
-      console.log(toast)
 
       if (docs.length >= 100) {
-        console.log(">=100 docs")
+        toast.textContent = "More than 100 results found. Zoom in to see more!"
+        toast.classList.remove("hidden")
+      } else if (docs.length == 0) {
+        toast.textContent = "No results found. Try moving the map or changing your search criteria."
         toast.classList.remove("hidden")
       } else {
-        console.log("<100 docs")
         toast.classList.add("hidden")
       }
 

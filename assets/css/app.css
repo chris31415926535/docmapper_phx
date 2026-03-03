@@ -111,13 +111,43 @@
   /* grid-template-areas: "header header" "searchbar searchbar" "doclist docmap" "footer footer"; */
   grid-template-areas: "header header" "searchbar searchbar" "docmap docmap" "footer footer";
   grid-template-columns: 1fr 3fr;
-  gap: 3px;
+  /* gap: 3px; */
   grid-template-rows: auto auto 1fr auto;
   padding: 0px;
   height: 100vh;
   width: 100%;
 }
 
+
+.search-grid {
+  display: grid;
+  grid-template-areas: "doctype-left doctype-right" "language-left language-right" "gender-left" "gender-right"; 
+  grid-template-columns: 1fr;
+  
+}
+
+
+.search-grid .grid-left {
+  font-weight: bold;
+  text-align: center;
+  padding-right: 0px;
+}
+
+@media screen and (width >= 400px) {
+  .search-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .search-grid .grid-left {
+    font-weight: bold;
+    text-align: end;
+    padding-right: 5px;
+  }
+}
+
+.search-grid select {
+  width: 200px;
+}
 
 .doclist {
   grid-area: doclist; 
@@ -299,11 +329,11 @@
   flex-direction: row;
   justify-content: space-around; 
   grid-area: searchbar;
+  background: white;
 }
 
-.searchbar th {
-  text-align: end;
-  padding-right: 10px;
+.searchbar div {
+  align-content: center;
 }
 
 
@@ -322,3 +352,6 @@
 
   
 }
+
+
+

@@ -1,6 +1,8 @@
+// Consolidate all individual hooks into one object that we load in app.js
+// 
 import MapHook from "./map-hook";
 import LeafletHook from "./leaflet";
-console.log("hello from hooks.js")
+
 export default {
   MapHook,
   LeafletHook  

@@ -21,8 +21,6 @@ defmodule DocmapperPhxWeb.DemoLive do
   end
 
   def handle_params(params, _uri, socket) do
-    # IO.inspect(params, label: "params")
-
     full_params =
       Map.merge(
         %{
@@ -45,8 +43,6 @@ defmodule DocmapperPhxWeb.DemoLive do
     doctors = DocmapperPhx.Doctors.search_doctors(full_params)
     {:ok, doctors_json} = Jason.encode(doctors)
 
-    # IO.inspect(doctors_json, label: "doctors_json")
-
     # UPDATE SOCKET
     socket =
       socket
@@ -65,7 +61,7 @@ defmodule DocmapperPhxWeb.DemoLive do
 
       <div id="docmap-container" class="docmap-container" phx-update="ignore">
         <div id="map" class="docmap" phx-hook="LeafletHook" />
-        <div id="toast">More than 100 results found. Zoom in to see more!</div>
+        <div id="toast" class="hidden">More than 100 results found. Zoom in to see more!</div>
       </div>
 
       <div class="footer">
@@ -98,52 +94,44 @@ defmodule DocmapperPhxWeb.DemoLive do
     ~H"""
     <div class="searchbar">
       <form phx-change="search-update">
-        <table>
-          <tr>
-            <th>I'm looking for</th>
-            <td>
-              <select name="doctype">
-                <%= for doc_type <- HardcodedValues.doc_types do %>
-                  <option value={doc_type} selected={@full_params["doctype"] == doc_type}>
-                    {doc_type}
-                  </option>
-                <% end %>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <th>Who speaks</th>
-            <td>
-              <select name="language">
-                <%= for language <- HardcodedValues.languages do %>
-                  <option value={language} selected={@full_params["language"] == language}>
-                    {language}
-                  </option>
-                <% end %>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <th>And who identifies as</th>
-            <td>
-              <select name="gender">
+        <div class="search-grid">
+          <div class="doctype-left grid-left">I'm looking for</div>
+          <div class="doctype-right">
+            <select name="doctype" class="select">
+              <%= for doc_type <- HardcodedValues.doc_types do %>
+                <option value={doc_type} selected={@full_params["doctype"] == doc_type}>
+                  {doc_type}
+                </option>
+              <% end %>
+            </select>
+          </div>
+          <div class="language-left grid-left">Who speaks</div>
+          <div class="language-right">
+            <select name="language" class="select">
+              <%= for language <- HardcodedValues.languages do %>
+                <option value={language} selected={@full_params["language"] == language}>
+                  {language}
+                </option>
+              <% end %>
+            </select>
+          </div>
+          <div class="gender-left grid-left">And who identifies as</div>
+          <div class="gender-right">
+              <select name="gender"  class="select">
                 <%= for gender <- @genders do %>
                   <option value={gender.value} selected={@full_params["gender"] == gender.value}>
                     {gender.label}
                   </option>
                 <% end %>
               </select>
-            </td>
-          </tr>
-        </table>
+              </div>
+        </div>
       </form>
     </div>
     """
   end
 
-
   def handle_event("search-update", params, socket) do
-    IO.inspect(params)
 
     full_params =
       Map.merge(
@@ -172,17 +160,12 @@ defmodule DocmapperPhxWeb.DemoLive do
   # handle event sent from Leaflet hook whenever map boundaries change (pan/zoom)
   # update query paramters in url
   def handle_event("map-boundaries-change", map_boundaries_params, socket) do
-    # IO.inspect(map_boundaries_params, label: "Map boundaries changed:")
 
     full_params =
       Map.merge(
         socket.assigns.full_params,
         map_boundaries_params
       )
-
-    IO.inspect(full_params, label: "new full parmas")
-    # IO.inspect(map_boundaries_params, label: "new map boundaries")
-    # IO.inspect(docs_json, label: "docs_json")
 
     socket =
       socket
