@@ -35,8 +35,8 @@ defmodule DocmapperPhxWeb.DemoLive do
           "swLon" => -75.78951270844645,
           "gender" => "any",
           "lang" => "en",
-          "doctype" => "family",
-          "language" => "Englsh"
+          "doctype" => "a Family Physician",
+          "language" => "English"
         },
         params
       )

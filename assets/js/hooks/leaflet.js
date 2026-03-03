@@ -29,6 +29,8 @@ import 'leaflet.markercluster';
 
 //  import "../../vendor/node_modules/leaflet/dist/leaflet.css";
 
+// .Icon.Default.prototype.options.iconUrl = "/images/marker-icon.png";
+
 const getFormattedBounds = (map) => {
     const newBoundsFromLeaflet = map.getBounds();
 
@@ -56,7 +58,6 @@ const getFormattedBounds = (map) => {
 
 const leafletHook = {
     
-
      
 
     mounted() {
@@ -86,7 +87,7 @@ const leafletHook = {
             //     .bindPopup('A pretty CSS popup.<br> Easily customizable.')
             //     .openPopup();
         } else {
-            map.setView([51.505, -0.09], 13);
+            map.setView([45.40977921176112, -75.6670323159904], 13);
             // L.marker([51.505, -0.09]).addTo(map)
             //     .bindPopup('A pretty CSS popup.<br> Easily customizable.')
             //     .openPopup();

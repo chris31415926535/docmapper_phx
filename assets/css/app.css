@@ -7,7 +7,7 @@
 @source "../../lib/docmapper_phx_web";
 @source "./docmapper.css"; 
 @import "../node_modules/maplibre-gl/dist/maplibre-gl.css";
-@import "../node_modules/leaflet/dist/leaflet.css";
+/* @import "../node_modules/leaflet/dist/leaflet.css"; */
 @import "../node_modules/leaflet.markercluster/dist/MarkerCluster.css";
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
    The heroicons installation itself is managed by your mix.exs */
