@@ -1,0 +1,83 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n>1);\n"
+
+#: lib/docmapper_phx_web/components/core_components.ex:368
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr ""
+
+#: lib/docmapper_phx_web/components/layouts.ex:99
+#: lib/docmapper_phx_web/components/layouts.ex:111
+#, elixir-autogen, elixir-format
+msgid "Attempting to reconnect"
+msgstr ""
+
+#: lib/docmapper_phx_web/live/demo_live.ex:96
+#, elixir-autogen, elixir-format
+msgid "DocMapper"
+msgstr "TrouvezUnMédecin"
+
+#: lib/docmapper_phx_web/live/demo_live.ex:77
+#, elixir-autogen, elixir-format
+msgid "Hand-crafted with ❤️ in Canada 🍁 by"
+msgstr "Fait avec  ❤️ au Canada 🍁 par"
+
+#: lib/docmapper_phx_web/components/layouts.ex:106
+#, elixir-autogen, elixir-format
+msgid "Something went wrong!"
+msgstr ""
+
+#: lib/docmapper_phx_web/components/layouts.ex:94
+#, elixir-autogen, elixir-format
+msgid "We can't find the internet"
+msgstr ""
+
+#: lib/docmapper_phx_web/components/core_components.ex:74
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr ""
+
+#: lib/docmapper_phx_web/live/demo_live.ex:131
+#, elixir-autogen, elixir-format
+msgid "And who identifies as"
+msgstr "Qui s'identifie comme"
+
+#: lib/docmapper_phx_web/live/demo_live.ex:107
+#, elixir-autogen, elixir-format
+msgid "I'm looking for"
+msgstr "Je recherche"
+
+#: lib/docmapper_phx_web/live/demo_live.ex:119
+#, elixir-autogen, elixir-format
+msgid "Who speaks"
+msgstr "Qui parle"
+
+#: lib/docmapper_phx_web/live/demo_live.ex:136
+#, elixir-autogen, elixir-format
+msgid "Any Gender"
+msgstr "N'importe quel genre"
+
+#: lib/docmapper_phx_web/live/demo_live.ex:145
+#, elixir-autogen, elixir-format
+msgid "Non-Binary"
+msgstr "Non-binaire"
+
+#: lib/docmapper_phx_web/live/demo_live.ex:142
+#, elixir-autogen, elixir-format
+msgid "a Man"
+msgstr "Masculin"
+
+#: lib/docmapper_phx_web/live/demo_live.ex:139
+#, elixir-autogen, elixir-format
+msgid "a Woman"
+msgstr "Féminin"

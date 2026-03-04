@@ -155,7 +155,6 @@ const leafletHook = {
     map.addEventListener("dragend zoom", () => {
 
       formattedBounds = getFormattedBounds(map);
-      console.log("client hook: map move")
       // console.log(formattedBounds)
       this.pushEvent("map-boundaries-change", formattedBounds)
 
