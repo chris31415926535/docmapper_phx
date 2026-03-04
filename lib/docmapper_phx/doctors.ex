@@ -114,15 +114,15 @@ defmodule DocmapperPhx.Doctors do
     docs = Repo.all(query)
 
     total_n = length(docs)
-    total_pct = total_n / total_docs_n
+    total_pct = :io_lib.format("~.1f%", [100 * total_n / total_docs_n])
     man_n = Enum.filter(docs, fn doc -> doc.gender == "Male" end) |> length()
     man_pct = man_n / total_n
     woman_n = Enum.filter(docs, fn doc -> doc.gender == "Female" end) |> length()
     woman_pct = woman_n / total_n
     famdoc_n = Enum.filter(docs, fn doc -> doc.famdoc == true end) |> length()
-    famdoc_pct = famdoc_n / total_n
+    famdoc_pct = :io_lib.format("~.1f%", [100 * famdoc_n / total_n]) |> to_string()
 
-    famdocs_speak_pct = famdoc_n / total_famdocs_n
+    famdocs_speak_pct = :io_lib.format("~.1f%", [100 * famdoc_n / total_famdocs_n])
 
     # do not convert to map, we don't know what the specialties will be
     specialties_n =

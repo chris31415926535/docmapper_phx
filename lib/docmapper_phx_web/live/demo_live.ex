@@ -8,13 +8,6 @@ defmodule DocmapperPhxWeb.DemoLive do
   # mix gettext.extract
   # mix gettext.merge priv/gettext
   def mount(_params, _session, socket) do
-    # doctors =
-    #   DocmapperPhx.Doctors.search_doctors(%{
-    #     gender: "any",
-    #     language: "English",
-    #     doctype: "a Family Physician"
-    #   })
-
     socket =
       socket
       |> assign(:count, 0)
@@ -71,22 +64,28 @@ defmodule DocmapperPhxWeb.DemoLive do
           <div id="toast" class="hidden">More than 100 results found. Zoom in to see more!</div>
         </div>
 
-        <div class="footer">
-          <div>
-            <p>
-              {gettext("Hand-crafted with ❤️ in Canada 🍁 by")}
-              <a
-                href="https://www.belangeranalytics.com"
-                target="_blank"
-                style="text-decoration: underline;"
-              >
-                Belanger Analytics
-              </a>
-            </p>
-          </div>
-        </div>
+        <.footer />
       </div>
     <% end) %>
+    """
+  end
+
+  def footer(assigns) do
+    ~H"""
+    <div class="footer">
+      <div>
+        <p>
+          {gettext("Hand-crafted with ❤️ in Canada 🍁 by")}
+          <a
+            href="https://www.belangeranalytics.com"
+            target="_blank"
+            style="text-decoration: underline;"
+          >
+            Belanger Analytics
+          </a>
+        </p>
+      </div>
+    </div>
     """
   end
 

@@ -20,6 +20,8 @@ defmodule DocmapperPhxWeb.Router do
     get "/", PageController, :home
 
     live "/map", DemoLive
+    live "/stats", StatsLive
+    
   end
 
   # Other scopes may use custom stacks.
