@@ -16,6 +16,7 @@ defmodule DocmapperPhx.Doctors.Doctor do
     field :lat, :float
     field :lon, :float
     field :famdoc, :boolean, default: false
+    field :lhin, :string
 
 
     # don't care about this
@@ -25,7 +26,7 @@ defmodule DocmapperPhx.Doctors.Doctor do
   @doc false
   def changeset(doctor, attrs) do
     doctor
-    |> cast(attrs, [:cpso, :name, :specialty, :gender, :primary_location, :languages_spoken, :phone_number, :lat, :lon, :famdoc])
-    |> validate_required([:cpso, :name, :specialty, :gender, :primary_location, :languages_spoken, :phone_number, :lat, :lon, :famdoc])
+    |> cast(attrs, [:cpso, :name, :specialty, :gender, :primary_location, :languages_spoken, :phone_number, :lat, :lon, :famdoc, :lhin])
+    |> validate_required([:cpso, :name, :specialty, :gender, :primary_location, :languages_spoken, :phone_number, :lat, :lon, :famdoc, :lhin])
   end
 end

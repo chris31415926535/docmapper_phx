@@ -43,12 +43,12 @@ defmodule DocmapperPhx.Doctors do
 
   def filter_gender(query, _params), do: query
 
-  def filter_doctype(query, %{"doctype" => "a Family Physician"}) do
+  def filter_doctype(query, %{"doctype" => "family"}) do
     query
     |> where([d], d.famdoc == true)
   end
 
-  def filter_doctype(query, %{"doctype" => "Any Physician"}) do
+  def filter_doctype(query, %{"doctype" => "any"}) do
     query
   end
 
@@ -60,8 +60,7 @@ defmodule DocmapperPhx.Doctors do
     |> where([d], ilike(d.specialty, ^search_string))
   end
 
-  def filter_doctype(query, params) do
-    IO.inspect(params, label: "*** filter_doctype failed with these params")
+  def filter_doctype(query, _params) do
     query
   end
 
@@ -72,11 +71,9 @@ defmodule DocmapperPhx.Doctors do
     |> where([d], ilike(d.languages_spoken, ^search_string))
   end
 
-  def filter_language(query, params) do
-    IO.inspect(params, label: "*** filter_language failed with these params")
+  def filter_language(query, _params) do
     query
   end
-
 
   ### FILTER FOR GEOGRAPHY
   def filter_geo(
@@ -98,11 +95,70 @@ defmodule DocmapperPhx.Doctors do
     )
   end
 
-  # def filter_geo(query, _params), do: query
+  def filter_geo(query, _params), do: query
 
+  ############## CALCULATE STATITSICS
+  #
+  def language_stats(params) do
+    total_docs_n = Repo.aggregate(Doctor, :count, :cpso)
 
+    total_famdocs_n =
+      from(d in Doctor)
+      |> where([d], d.famdoc == true)
+      |> Repo.aggregate(:count, :cpso)
 
-  
+    query =
+      from(d in Doctor)
+      |> filter_language(params)
+
+    docs = Repo.all(query)
+
+    total_n = length(docs)
+    total_pct = total_n / total_docs_n
+    man_n = Enum.filter(docs, fn doc -> doc.gender == "Male" end) |> length()
+    man_pct = man_n / total_n
+    woman_n = Enum.filter(docs, fn doc -> doc.gender == "Female" end) |> length()
+    woman_pct = woman_n / total_n
+    famdoc_n = Enum.filter(docs, fn doc -> doc.famdoc == true end) |> length()
+    famdoc_pct = famdoc_n / total_n
+
+    famdocs_speak_pct = famdoc_n / total_famdocs_n
+
+    # do not convert to map, we don't know what the specialties will be
+    specialties_n =
+      docs
+      |> Enum.map(& &1.specialty)
+      |> Enum.map(&String.split(&1, ", "))
+      |> List.flatten()
+      |> Enum.frequencies()
+      |> Enum.sort_by(fn {_k, v} -> v end, :desc)
+      |> Enum.take(5)
+
+    # convert to a map because we want to match specific keys for LHIN regions
+    lhins_n =
+      docs
+      |> Enum.map(& &1.lhin)
+      |> Enum.map(&String.split(&1, ", "))
+      |> List.flatten()
+      |> Enum.frequencies()
+      |> Enum.sort_by(fn {_k, v} -> v end, :desc)
+      |> Map.new()
+
+    %{
+      total_n: total_n,
+      total_pct: total_pct,
+      man_n: man_n,
+      man_pct: man_pct,
+      woman_n: woman_n,
+      woman_pct: woman_pct,
+      famdoc_n: famdoc_n,
+      famdoc_pct: famdoc_pct,
+      famdocs_speak_pct: famdocs_speak_pct,
+      specialties_n: specialties_n,
+      lhins_n: lhins_n
+    }
+  end
+
   @doc """
   Gets a single doctor.
 

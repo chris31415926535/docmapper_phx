@@ -47,37 +47,62 @@ msgstr ""
 msgid "close"
 msgstr ""
 
-#: lib/docmapper_phx_web/live/demo_live.ex:131
+#: lib/docmapper_phx_web/live/demo_live.ex:149
 #, elixir-autogen, elixir-format
 msgid "And who identifies as"
 msgstr ""
 
-#: lib/docmapper_phx_web/live/demo_live.ex:107
+#: lib/docmapper_phx_web/live/demo_live.ex:108
 #, elixir-autogen, elixir-format
 msgid "I'm looking for"
 msgstr ""
 
-#: lib/docmapper_phx_web/live/demo_live.ex:119
+#: lib/docmapper_phx_web/live/demo_live.ex:127
 #, elixir-autogen, elixir-format
 msgid "Who speaks"
 msgstr ""
 
-#: lib/docmapper_phx_web/live/demo_live.ex:136
+#: lib/docmapper_phx_web/live/demo_live.ex:154
 #, elixir-autogen, elixir-format
 msgid "Any Gender"
 msgstr ""
 
-#: lib/docmapper_phx_web/live/demo_live.ex:145
+#: lib/docmapper_phx_web/live/demo_live.ex:163
 #, elixir-autogen, elixir-format
 msgid "Non-Binary"
 msgstr ""
 
-#: lib/docmapper_phx_web/live/demo_live.ex:142
+#: lib/docmapper_phx_web/live/demo_live.ex:160
 #, elixir-autogen, elixir-format
 msgid "a Man"
 msgstr ""
 
-#: lib/docmapper_phx_web/live/demo_live.ex:139
+#: lib/docmapper_phx_web/live/demo_live.ex:157
 #, elixir-autogen, elixir-format
 msgid "a Woman"
+msgstr ""
+
+#: lib/docmapper_phx_web/live/demo_live.ex:133
+#, elixir-autogen, elixir-format
+msgid "English"
+msgstr ""
+
+#: lib/docmapper_phx_web/live/demo_live.ex:137
+#, elixir-autogen, elixir-format
+msgid "French"
+msgstr ""
+
+#: lib/docmapper_phx_web/live/demo_live.ex:116
+#, elixir-autogen, elixir-format
+msgid "Any Physician"
+msgstr ""
+
+#: lib/docmapper_phx_web/live/demo_live.ex:113
+#, elixir-autogen, elixir-format
+msgid "a Family Physician"
+msgstr ""
+
+#: lib/docmapper_phx_web/live/demo_live.ex:97
+#, elixir-autogen, elixir-format
+msgid "FR"
 msgstr ""

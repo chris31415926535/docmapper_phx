@@ -155,12 +155,23 @@
 
 
 .menubar {
+	color: white;
+	font-weight: bold;
   grid-area: header;
   height: auto;
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: #2d6ebe;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
 
+.lang-select {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding-right: 10px;
 }
 
 
@@ -349,9 +360,5 @@
   border-radius: 5px;
   border: 2px solid #CCC;
   text-align: center;
-
-  
 }
-
-
 

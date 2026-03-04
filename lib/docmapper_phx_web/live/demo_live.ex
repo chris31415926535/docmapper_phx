@@ -37,7 +37,7 @@ defmodule DocmapperPhxWeb.DemoLive do
           "swLon" => -75.78951270844645,
           "gender" => "any",
           "locale" => "en",
-          "doctype" => "a Family Physician",
+          "doctype" => "family",
           "language" => "English"
         },
         params
@@ -73,14 +73,14 @@ defmodule DocmapperPhxWeb.DemoLive do
 
         <div class="footer">
           <div>
-            <p phx-click="change_locale">
+            <p>
               {gettext("Hand-crafted with ❤️ in Canada 🍁 by")}
               <a
                 href="https://www.belangeranalytics.com"
                 target="_blank"
                 style="text-decoration: underline;"
               >
-                Belanger Analytics {Gettext.get_locale()}
+                Belanger Analytics
               </a>
             </p>
           </div>
@@ -94,6 +94,7 @@ defmodule DocmapperPhxWeb.DemoLive do
     ~H"""
     <div class="menubar">
       <div class="header-title">🩺{gettext("DocMapper")}</div>
+      <div class="lang-select" phx-click="change_locale"><a href="#">{gettext("FR")}</a></div>
     </div>
     """
   end
@@ -108,6 +109,13 @@ defmodule DocmapperPhxWeb.DemoLive do
           </div>
           <div class="doctype-right">
             <select name="doctype" id="doctype-select" class="select">
+              <option value="family" selected={@full_params["doctype"] == "family"}>
+                {gettext("a Family Physician")}
+              </option>
+              <option value="any" selected={@full_params["doctype"] == "any"}>
+                {gettext("Any Physician")}
+              </option>
+              <option value="----------" disabled>--------------------</option>
               <%= for doc_type <- HardcodedValues.doc_types do %>
                 <option value={doc_type} selected={@full_params["doctype"] == doc_type}>
                   {doc_type}
@@ -120,9 +128,18 @@ defmodule DocmapperPhxWeb.DemoLive do
           </div>
           <div class="language-right">
             <select name="language" id="language-select" class="select">
+              <option value="English" selected={@full_params["language"] == "English"}>
+                {gettext("English")}
+              </option>
+
+              <option value="French" selected={@full_params["language"] == "French"}>
+                {gettext("French")}
+              </option>
+
+              <option value="----------" disabled>--------------------</option>
               <%= for language <- HardcodedValues.languages do %>
                 <option value={language} selected={@full_params["language"] == language}>
-                  {language}
+                  {Gettext.gettext(DocmapperPhxWeb.Gettext, language)}
                 </option>
               <% end %>
             </select>

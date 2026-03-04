@@ -15,8 +15,8 @@ defmodule DocmapperPhxWeb.HardcodedValues do
 
   def doc_types do
     [
-      "a Family Physician",
-      "Any Physician",
+      # "a Family Physician",
+      # "Any Physician",
       "Addiction Medicine",
       "Adolescent Medicine",
       "Anatomical Pathology",
@@ -113,8 +113,8 @@ defmodule DocmapperPhxWeb.HardcodedValues do
   # docs |> Enum.map(fn x -> x.languages_spoken end) |> Enum.map(&String.split(&1, ",")) |> List.flatten() |> Enum.uniq() |> Enum.map(&String.replace(&1, " ", "")) |> Enum.sort() |> IO.inspect(limit: :infinity)
   def languages do
     [
-      "English",
-      "French",
+      # "English",
+      # "French",
       "Acholi",
       "Afrikaans",
       "Akan",

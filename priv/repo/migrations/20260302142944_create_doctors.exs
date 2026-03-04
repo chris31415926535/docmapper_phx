@@ -13,6 +13,7 @@ defmodule DocmapperPhx.Repo.Migrations.CreateDoctors do
       add :lat, :float
       add :lon, :float
       add :famdoc, :boolean, default: false, null: false
+      add :lhin, :string
 
       # don't care about this
       # timestamps(type: :utc_datetime)
