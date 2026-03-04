@@ -177,7 +177,7 @@ const leafletHook = {
         textPhone = "Phone number: ";
       } else {
         textMore = "Plus de 100 résultats trouvés. Zoomez pour en voir davantage !";
-        textNone = "Aucun résultat trouvé. Essayez de déplacer la carte ou de modifier vos critères de recherche.";
+        textNone = "Aucun résultat trouvé. Déplacez la carte ou modifiez vos critères de recherche.";
         textName = "Nom : ";
         textGender = "Genre : ";
         textSpecialty = "Spécialité : ";
