@@ -35,37 +35,38 @@ defmodule DocmapperPhxWeb.StatsLive do
   def render(assigns) do
     ~H"""
     <%= Gettext.with_locale(@full_params["locale"], fn -> %>
-    <DocmapperPhxWeb.DemoLive.menu_bar />
-    <form phx-change="search-update">
-      <select name="language" id="language-select" class="select">
-        <option value="English" selected={@full_params["language"] == "English"}>
-          {gettext("English")}
-        </option>
-
-        <option value="French" selected={@full_params["language"] == "French"}>
-          {gettext("French")}
-        </option>
-
-        <option value="----------" disabled>--------------------</option>
-        <%= for language <- HardcodedValues.languages do %>
-          <option value={language} selected={@full_params["language"] == language}>
-            {Gettext.gettext(DocmapperPhxWeb.Gettext, language)}
+      <DocmapperPhxWeb.MapLive.menu_bar />
+      <form phx-change="search-update">
+        <select name="language" id="language-select" class="select">
+          <option value="English" selected={@full_params["language"] == "English"}>
+            {gettext("English")}
           </option>
-        <% end %>
-      </select>
-    </form>
 
-    <div>
-      {@doc_stats.total_n} Physicians Speak {@full_params["language"]}
-      {@doc_stats.total_pct} of All Physicians in Ontario
-    </div>
-    
-    <div>
-    {inspect(@doc_stats)}
-    </div>
-    <DocmapperPhxWeb.DemoLive.footer />
+          <option value="French" selected={@full_params["language"] == "French"}>
+            {gettext("French")}
+          </option>
+
+          <option value="----------" disabled>--------------------</option>
+          <%= for language <- HardcodedValues.languages do %>
+            <option value={language} selected={@full_params["language"] == language}>
+              {Gettext.gettext(DocmapperPhxWeb.Gettext, language)}
+            </option>
+          <% end %>
+        </select>
+      </form>
+
+      <div>
+        <div>{@doc_stats.total_n} Physicians Speak {@full_params["language"]}</div>
+        <div>{@doc_stats.total_pct} of All Physicians in Ontario</div>
+      </div>
+
+      <div>
+        <pre>
+    {inspect(@doc_stats, pretty: true)}
+    </pre>
+      </div>
+      <DocmapperPhxWeb.MapLive.footer />
     <% end) %>
-
     """
   end
 

@@ -19,7 +19,7 @@ defmodule DocmapperPhxWeb.Router do
 
     get "/", PageController, :home
 
-    live "/map", DemoLive
+    live "/map", MapLive
     live "/stats", StatsLive
     
   end

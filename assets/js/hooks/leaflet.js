@@ -169,11 +169,23 @@ const leafletHook = {
       if (locale == "en") {
         textMore = "More than 100 results found. Zoom in to see more!";
         textNone = "No results found. Try moving the map or changing your search criteria.";
+        textName = "Name: ";
+        textGender = "Gender: ";
+        textSpecialty = "Specialty: ";
+        textLanguages = "Languages: ";
+        textAddress = "Address: ";
+        textPhone = "Phone number: ";
       } else {
         textMore = "Plus de 100 résultats trouvés. Zoomez pour en voir davantage !";
         textNone = "Aucun résultat trouvé. Essayez de déplacer la carte ou de modifier vos critères de recherche.";
-        
-      }
+        textName = "Nom : ";
+        textGender = "Genre : ";
+        textSpecialty = "Spécialité : ";
+        textLanguages = "Langues : ";
+        textAddress = "Adresse : ";
+        textPhone = "Numéro de téléphone : ";
+
+      } // end if locale == "en"
 
       console.log(locale)
 
@@ -201,14 +213,30 @@ const leafletHook = {
         if (!doc) return null;
         if (!doc.lat || !doc.lon) return null;
 
+        if (locale == "en") {
+          textDocGender = doc.gender;
+        } else {
+
+          if (doc.gender == "Male") {
+            textDocGender = "Masculin"
+          } else if (doc.gender == "Female") {
+
+            textDocGender = "Féminin"
+          } else if (doc.gender == "Non-Binary") {
+            textDocGender = "Non-Binaire"
+          } else {
+            textDocGender = doc.gender;
+          } // end if doc.gender
+        } // end if locale == "en"
+
         const label = (`
         <div style="max-width:300px; overflow-wrap: break-word !important; word-break: break-word !important;">
-                <b>Name:</b> ${doc.name}
-                <br><b>Gender:</b> ${doc.gender}
-                <br><b>Specialty:</b> ${doc.specialty}
-                <br><b>Languages:</b> ${doc.languages_spoken}                
-                <br><b>Address:</b> ${doc.primary_location}
-                ${doc.phone_number !== "NA" ? "<br><b>Phone Number:</b> " + doc.phone_number : ""}
+                <b> ${textName} </b> ${doc.name}
+                <br><b>${textGender}</b> ${textDocGender}
+                <br><b>${textSpecialty}</b> ${doc.specialty}
+                <br><b>${textLanguages}</b> ${doc.languages_spoken}                
+                <br><b>${textAddress}</b> ${doc.primary_location}
+                ${doc.phone_number !== "NA" ? `<br><b>${textPhone}</b> ` + doc.phone_number : ""}
         </div>`)
 
         const newMarker = L.marker([doc.lat, doc.lon])

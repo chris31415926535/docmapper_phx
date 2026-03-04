@@ -1,4 +1,4 @@
-defmodule DocmapperPhxWeb.DemoLive do
+defmodule DocmapperPhxWeb.MapLive do
   use Phoenix.LiveView
   use DocmapperPhxWeb, :verified_routes
   alias DocmapperPhxWeb.HardcodedValues
@@ -55,6 +55,7 @@ defmodule DocmapperPhxWeb.DemoLive do
   def render(assigns) do
     ~H"""
     <%= Gettext.with_locale(@full_params["locale"], fn -> %>
+    <head><title>{gettext("DocMapper")}</title></head>
       <div class="docmapper-container" role="main">
         <.menu_bar />
         <.search_bar genders={HardcodedValues.genders()} full_params={@full_params} />
