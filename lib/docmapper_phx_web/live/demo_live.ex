@@ -191,7 +191,7 @@ defmodule DocmapperPhxWeb.DemoLive do
     socket =
       socket
       |> assign(full_params: new_params)
-      |> push_patch(to: ~p"/test?#{new_params}")
+      |> push_patch(to: ~p"/map?#{new_params}")
 
     {
       :noreply,
@@ -213,15 +213,9 @@ defmodule DocmapperPhxWeb.DemoLive do
     # search happens in handle_params
     socket =
       socket
-      |> push_patch(to: ~p"/test?#{full_params}")
+      |> push_patch(to: ~p"/map?#{full_params}")
 
     {:noreply, socket}
-  end
-
-  def handle_event("test", _unsigned_params, socket) do
-    IO.puts("hello")
-
-    {:noreply, socket |> assign(:count, socket.assigns.count + 1)}
   end
 
   # handle event sent from Leaflet hook whenever map boundaries change (pan/zoom)
@@ -235,7 +229,7 @@ defmodule DocmapperPhxWeb.DemoLive do
 
     socket =
       socket
-      |> push_patch(to: ~p"/test?#{full_params}")
+      |> push_patch(to: ~p"/map?#{full_params}")
 
     {:noreply, socket}
   end
