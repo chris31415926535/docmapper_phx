@@ -163,16 +163,30 @@ const leafletHook = {
 
     // new docs from server!
     this.handleEvent("new-docs", (spec) => {
-      docs = JSON.parse(spec.data)
+
+      const locale = (new URLSearchParams(window.location.search)).get("locale") ?? "en"
+
+      if (locale == "en") {
+        textMore = "More than 100 results found. Zoom in to see more!";
+        textNone = "No results found. Try moving the map or changing your search criteria.";
+      } else {
+        textMore = "Plus de 100 résultats trouvés. Zoomez pour en voir davantage !";
+        textNone = "Aucun résultat trouvé. Essayez de déplacer la carte ou de modifier vos critères de recherche.";
+        
+      }
+
+      console.log(locale)
+
+      const docs = JSON.parse(spec.data)
 
       // show toast if >100 docs
       const toast = document.getElementById("toast")
 
       if (docs.length >= 100) {
-        toast.textContent = "More than 100 results found. Zoom in to see more!"
+        toast.textContent = textMore;
         toast.classList.remove("hidden")
       } else if (docs.length == 0) {
-        toast.textContent = "No results found. Try moving the map or changing your search criteria."
+        toast.textContent = textNone;
         toast.classList.remove("hidden")
       } else {
         toast.classList.add("hidden")
