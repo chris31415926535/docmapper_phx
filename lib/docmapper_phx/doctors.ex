@@ -133,6 +133,12 @@ defmodule DocmapperPhx.Doctors do
       |> Enum.frequencies()
       |> Enum.sort_by(fn {_k, v} -> v end, :desc)
       |> Enum.take(5)
+      |> Enum.sort_by(fn {_k, v} -> v end)
+
+    specialties_n = %{
+      specialty: Enum.map(specialties_n, fn {k, _v} -> k end),
+      count: Enum.map(specialties_n, fn {_k, v} -> v end)
+    }
 
     # convert to a map because we want to match specific keys for LHIN regions
     lhins_n =
@@ -145,6 +151,7 @@ defmodule DocmapperPhx.Doctors do
       |> Map.new()
 
     %{
+      language: params["language"],
       total_n: total_n,
       total_pct: total_pct,
       man_n: man_n,

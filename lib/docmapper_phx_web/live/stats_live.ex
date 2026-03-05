@@ -28,12 +28,17 @@ defmodule DocmapperPhxWeb.StatsLive do
       socket
       |> assign(full_params: full_params)
       |> assign(doc_stats: doc_stats)
+      |> push_event("new-stats", doc_stats)
 
     {:noreply, socket}
   end
 
   def render(assigns) do
     ~H"""
+    <head>
+      <script src="https://cdn.plot.ly/plotly-3.4.0.min.js" charset="utf-8">
+      </script>
+    </head>
     <%= Gettext.with_locale(@full_params["locale"], fn -> %>
       <DocmapperPhxWeb.MapLive.menu_bar />
       <form phx-change="search-update">
@@ -58,6 +63,68 @@ defmodule DocmapperPhxWeb.StatsLive do
       <div>
         <div>{@doc_stats.total_n} Physicians Speak {@full_params["language"]}</div>
         <div>{@doc_stats.total_pct} of All Physicians in Ontario</div>
+      </div>
+
+      <div class="stats-num-box">
+        <div class="stats-big-num">{@doc_stats.famdoc_pct}</div>
+        <div>of {@full_params["language"]}-speakers are Family Physicians</div>
+      </div>
+
+      <div class="stats-num-box">
+        <div class="stats-big-num">{@doc_stats.famdocs_speak_pct}</div>
+        <div>of Family Physicians speak {@full_params["language"]}</div>
+      </div>
+
+      <div id="stats-specialties-container" class="stats-specialties-container">
+<div>
+<h2>
+Top 5 Specialties for {@full_params["language"]} Speakers</h2>
+</div>
+      <div id="specialties-plot-container"i style="height:300px; width: 100%;">
+        <div id="specialties-plot" phx-hook=".SpecialtiesPlot" style="height:100%;width:100%;">
+          <script
+            :type={Phoenix.LiveView.ColocatedHook}
+            name=".SpecialtiesPlot"
+          >
+                          export default {
+                            mounted() {
+                            console.log("hell yeah!")
+                  //              	TESTER = document.getElementById('tester');
+                  //          Plotly.newPlot( TESTER, [{
+                  //          x: [1, 2, 3, 4, 5],
+                  //          y: [1, 2, 4, 8, 16] }], {
+                  //          margin: { t: 0 } } );
+
+                            this.handleEvent("new-stats", stats => {
+                            el = document.getElementById("specialties-plot")
+            Plotly.newPlot(el,
+            [{x: stats.specialties_n.count, y: stats.specialties_n.specialty, type: 'bar', orientation: 'h'}],
+            {
+//            title: {
+//              text: `Top 5 Specialties for ${stats.language} Speakers`,
+//              font: {
+//                size: 24,
+//                weight: 'bold'
+//              }
+//            },
+            margin: { r: 0, t: 40, b: 20},
+            yaxis: {automargin: true},
+             autosize: true
+             },
+             {
+             responsive: true
+             }
+             )
+                              console.log(stats);
+                            })
+                            }// end mounted()
+
+                          } 
+                      
+                
+          </script>
+        </div>
+        </div>
       </div>
 
       <div>

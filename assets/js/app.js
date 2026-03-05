@@ -57,10 +57,14 @@ import Hooks from "./hooks/hooks.js";
 // });
 
 // console.log(map)
-
+console.log(Hooks)
+console.log(colocatedHooks)
+const hooks =  {...Hooks, ...colocatedHooks};
+console.log(hooks)
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 const liveSocket = new LiveSocket("/live", Socket, {
-  hooks: Hooks,
+
+  hooks: hooks,
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken},
 })
