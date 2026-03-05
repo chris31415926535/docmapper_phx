@@ -2,8 +2,9 @@
 // 
 import MapHook from "./map-hook";
 import LeafletHook from "./leaflet";
-
+import LeafletLhinsHook from "./leaflet-lhins-hook";
 export default {
   MapHook,
-  LeafletHook  
+  LeafletHook,
+  LeafletLhinsHook
 };

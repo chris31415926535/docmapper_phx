@@ -115,10 +115,12 @@ defmodule DocmapperPhx.Doctors do
 
     total_n = length(docs)
     total_pct = :io_lib.format("~.1f%", [100 * total_n / total_docs_n])
-    man_n = Enum.filter(docs, fn doc -> doc.gender == "Male" end) |> length()
-    man_pct = man_n / total_n
-    woman_n = Enum.filter(docs, fn doc -> doc.gender == "Female" end) |> length()
-    woman_pct = woman_n / total_n
+    gender_man_n = Enum.filter(docs, fn doc -> doc.gender == "Male" end) |> length()
+    gender_man_pct = :io_lib.format("~.1f%", [100 *gender_man_n / total_n])
+    gender_woman_n = Enum.filter(docs, fn doc -> doc.gender == "Female" end) |> length()
+    gender_woman_pct = :io_lib.format("~.1f%", [100 *gender_woman_n / total_n])
+    gender_nonbinary_n = Enum.filter(docs, fn doc -> doc.gender == "Non-Binary" end) |> length()
+    gender_nonbinary_pct = :io_lib.format("~.1f%", [100 *gender_nonbinary_n / total_n])
     famdoc_n = Enum.filter(docs, fn doc -> doc.famdoc == true end) |> length()
     famdoc_pct = :io_lib.format("~.1f%", [100 * famdoc_n / total_n]) |> to_string()
 
@@ -154,10 +156,12 @@ defmodule DocmapperPhx.Doctors do
       language: params["language"],
       total_n: total_n,
       total_pct: total_pct,
-      man_n: man_n,
-      man_pct: man_pct,
-      woman_n: woman_n,
-      woman_pct: woman_pct,
+      gender_man_n: gender_man_n,
+      gender_man_pct: gender_man_pct,
+      gender_woman_n: gender_woman_n,
+      gender_woman_pct: gender_woman_pct,
+      gender_nonbinary_n: gender_nonbinary_n,
+      gender_nonbinary_pct: gender_nonbinary_pct,
       famdoc_n: famdoc_n,
       famdoc_pct: famdoc_pct,
       famdocs_speak_pct: famdocs_speak_pct,

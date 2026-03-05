@@ -106,6 +106,60 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* This file is for your main application CSS */
+.stats-grid {
+	display: grid;
+  grid-template-areas: "header" "stats-search-bar" "data-grid" "plot-grid" "footer";
+  /* grid-template-rows: auto; */
+  grid-template-rows: auto auto 1fr 1fr auto;
+  height: 100vh;
+  width: 100%;
+  gap: 0px;
+  text-align: center;
+}
+
+.data-grid {
+	display: grid;
+	grid-template-areas: "stats-overall" "stats-famdocs" "stats-gender";
+	grid-template-columns: 1fr ;
+	height: 100%;
+	width: 100%;
+}
+
+.plot-grid {
+	display: grid;
+	grid-template-areas: "stats-specialties-container" "lhin-plot-container";
+	grid-template-columns: 1fr ;
+	height: 100%;
+	width: 100%;
+	
+}
+
+.lhin-plot {
+     height:300px;
+     width:100%;
+}
+
+@media screen and (width >= 800px) {
+  .data-grid {
+	grid-template-areas: "stats-overall stats-famdocs stats-gender";
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+	.plot-grid {
+
+		display:grid;
+		grid-template-areas: "stats-specialties-container lhin-plot-container";
+		grid-template-columns: 1fr 1fr ;
+		height: 100%;
+		width: 100%;
+	
+	}
+
+	.lhin-plot {
+	/* width: 300px; */
+	height: 100%;
+	}
+} /* end media query */
 .docmapper-container {
   display: grid;
   /* grid-template-areas: "header header" "searchbar searchbar" "doclist docmap" "footer footer"; */
@@ -149,6 +203,16 @@
   width: 200px;
 }
 
+.stats-search-bar {
+	bagkground:white;
+	padding-bottom: 10px;
+
+	h1 {
+		display: inline-block;
+		font-weight: bold;
+		font-height: 4em;
+	}
+}
 .doclist {
   grid-area: doclist; 
 }
@@ -362,12 +426,26 @@
   text-align: center;
 }
 
+.data-grid 	h2 {
+		font-weight: bold;
+		font-size: 1.5em;
+	}
+
+.stats-num-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-shrink: 0;
+}
+	
 
 .stats-num-box {
+	flex-shrink: 0;
 	background-color: white;
   border: 2px solid #CCC;
   border-radius: 10px;
 	max-width: 350px;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-contents: center;
@@ -379,6 +457,22 @@
 	
 }
 
+.stats-gender-box {
+	flex-shrink: 0;
+	width: 100%;
+	background-color: white;
+  border: 2px solid #CCC;
+  border-radius: 10px;
+	max-width: 350px;
+	display: flex;
+	flex-direction: column;
+	justify-contents: center;
+	align-items: center;
+	padding-bottom: 5px;
+}
+.stats-gender-num{
+	font-size: 3.5em;
+}
 .stats-specialties-container {
 	box-sizing: border-box;
   border: 2px solid #CCC;
@@ -400,4 +494,22 @@
 	text-align: center;
 	font-weight: bold;
 	font-size: 1.5em;
+}
+
+
+
+
+/* LEAFLET CHOROPLETH MAP STYLES */
+/* https://leafletjs.com/examples/choropleth/ */
+.legend {
+    line-height: 18px;
+    color: #555;
+    background: white;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
 }

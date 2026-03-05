@@ -40,99 +40,119 @@ defmodule DocmapperPhxWeb.StatsLive do
       </script>
     </head>
     <%= Gettext.with_locale(@full_params["locale"], fn -> %>
-      <DocmapperPhxWeb.MapLive.menu_bar />
-      <form phx-change="search-update">
-        <select name="language" id="language-select" class="select">
-          <option value="English" selected={@full_params["language"] == "English"}>
-            {gettext("English")}
-          </option>
+      <div class="stats-grid">
+        <DocmapperPhxWeb.MapLive.menu_bar />
+        <div class="stats-search-bar">
+        <form phx-change="search-update">
+        <label for="language"><h1>Tell me about physicians who speak:</h1> </label>
+            <select name="language" id="language-select" class="select">
+              <option value="English" selected={@full_params["language"] == "English"}>
+                {gettext("English")}
+              </option>
 
-          <option value="French" selected={@full_params["language"] == "French"}>
-            {gettext("French")}
-          </option>
+              <option value="French" selected={@full_params["language"] == "French"}>
+                {gettext("French")}
+              </option>
 
-          <option value="----------" disabled>--------------------</option>
-          <%= for language <- HardcodedValues.languages do %>
-            <option value={language} selected={@full_params["language"] == language}>
-              {Gettext.gettext(DocmapperPhxWeb.Gettext, language)}
-            </option>
-          <% end %>
-        </select>
-      </form>
-
-      <div>
-        <div>{@doc_stats.total_n} Physicians Speak {@full_params["language"]}</div>
-        <div>{@doc_stats.total_pct} of All Physicians in Ontario</div>
-      </div>
-
-      <div class="stats-num-box">
-        <div class="stats-big-num">{@doc_stats.famdoc_pct}</div>
-        <div>of {@full_params["language"]}-speakers are Family Physicians</div>
-      </div>
-
-      <div class="stats-num-box">
-        <div class="stats-big-num">{@doc_stats.famdocs_speak_pct}</div>
-        <div>of Family Physicians speak {@full_params["language"]}</div>
-      </div>
-
-      <div id="stats-specialties-container" class="stats-specialties-container">
-<div>
-<h2>
-Top 5 Specialties for {@full_params["language"]} Speakers</h2>
-</div>
-      <div id="specialties-plot-container"i style="height:300px; width: 100%;">
-        <div id="specialties-plot" phx-hook=".SpecialtiesPlot" style="height:100%;width:100%;">
-          <script
-            :type={Phoenix.LiveView.ColocatedHook}
-            name=".SpecialtiesPlot"
-          >
-                          export default {
-                            mounted() {
-                            console.log("hell yeah!")
-                  //              	TESTER = document.getElementById('tester');
-                  //          Plotly.newPlot( TESTER, [{
-                  //          x: [1, 2, 3, 4, 5],
-                  //          y: [1, 2, 4, 8, 16] }], {
-                  //          margin: { t: 0 } } );
-
-                            this.handleEvent("new-stats", stats => {
-                            el = document.getElementById("specialties-plot")
-            Plotly.newPlot(el,
-            [{x: stats.specialties_n.count, y: stats.specialties_n.specialty, type: 'bar', orientation: 'h'}],
-            {
-//            title: {
-//              text: `Top 5 Specialties for ${stats.language} Speakers`,
-//              font: {
-//                size: 24,
-//                weight: 'bold'
-//              }
-//            },
-            margin: { r: 0, t: 40, b: 20},
-            yaxis: {automargin: true},
-             autosize: true
-             },
-             {
-             responsive: true
-             }
-             )
-                              console.log(stats);
-                            })
-                            }// end mounted()
-
-                          } 
-                      
-                
-          </script>
+              <option value="----------" disabled>--------------------</option>
+              <%= for language <- HardcodedValues.languages do %>
+                <option value={language} selected={@full_params["language"] == language}>
+                  {Gettext.gettext(DocmapperPhxWeb.Gettext, language)}
+                </option>
+              <% end %>
+            </select>
+          </form>
         </div>
-        </div>
-      </div>
 
-      <div>
-        <pre>
-    {inspect(@doc_stats, pretty: true)}
-    </pre>
+        <div class="data-grid">
+          <div class="stats-num-container">
+            <h2>Overall</h2>
+            <div class="stats-num-box">
+              <div class="stats-big-num">{@doc_stats.total_n}</div>
+              <div>Physicians Speak {@full_params["language"]}</div>
+            </div>
+            <div class="stats-num-box">
+              <div class="stats-big-num">{@doc_stats.total_pct}</div>
+              <div>of All Physicians in Ontario Speak {@full_params["language"]}</div>
+            </div>
+          </div>
+
+          <div class="stats-num-container">
+            <h2>Family Physicians</h2>
+            <div class="stats-num-box">
+              <div class="stats-big-num">{@doc_stats.famdoc_pct}</div>
+              <div>of {@full_params["language"]}-speakers are Family Physicians</div>
+            </div>
+
+            <div class="stats-num-box">
+              <div class="stats-big-num">{@doc_stats.famdocs_speak_pct}</div>
+              <div>of Family Physicians speak {@full_params["language"]}</div>
+            </div>
+          </div>
+          <div class="stats-num-container">
+            <h2>Gender</h2>
+            <div class="stats-gender-box">
+              <div class="stats-gender-num">{@doc_stats.gender_man_pct}</div>
+              <div>of {@full_params["language"]}-speakers Identified as Male</div>
+            </div>
+            <div class="stats-gender-box">
+              <div class="stats-gender-num">{@doc_stats.gender_woman_pct}</div>
+              <div>of {@full_params["language"]}-speakers Identified as Female</div>
+            </div>
+            <div class="stats-gender-box">
+              <div class="stats-gender-num">{@doc_stats.gender_nonbinary_pct}</div>
+              <div>of {@full_params["language"]}-speakers Identified as Non-Binary</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="plot-grid">
+          <div id="stats-specialties-container" class="stats-specialties-container">
+            <div class="stat-plot-title-container">
+              <h2>Top 5 Specialties for {@full_params["language"]} Speakers</h2>
+            </div>
+            <div id="specialties-plot-container" i style="height:300px; width: 100%;">
+              <div id="specialties-plot" phx-hook=".SpecialtiesPlot" style="height:100%;width:100%;">
+                <script
+                  :type={Phoenix.LiveView.ColocatedHook}
+                  name=".SpecialtiesPlot"
+                >
+                  export default {
+                    mounted() {
+                      this.handleEvent("new-stats", stats => {
+                        el = document.getElementById("specialties-plot")
+                        Plotly.newPlot(
+                          el,
+                          [{x: stats.specialties_n.count, y: stats.specialties_n.specialty, type: 'bar', orientation: 'h'}],
+                          {
+                            margin: { r: 0, t: 40, b: 20},
+                            yaxis: {automargin: true},
+                            autosize: true
+                          },
+                          {
+                            responsive: true
+                          }
+                        ) // end Plotly.newPlot()
+                      }) // end handleEvent("new-stats")
+                    }// end mounted()
+                  } // end default 
+                </script>
+              </div>
+            </div>
+          </div>
+
+          <div id="lhin-plot-container" style="lhin-plot-container" >
+            <div
+              id="lhin-plot"
+              class="lhin-plot"
+              phx-hook="LeafletLhinsHook"
+              phx-update="ignore"
+            >
+            </div>
+          </div>
+        </div>
+        <DocmapperPhxWeb.MapLive.footer />
       </div>
-      <DocmapperPhxWeb.MapLive.footer />
     <% end) %>
     """
   end

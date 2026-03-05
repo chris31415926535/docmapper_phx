@@ -26,6 +26,7 @@ import {hooks as colocatedHooks} from "phoenix-colocated/docmapper_phx"
 import topbar from "../vendor/topbar"
 import Hooks from "./hooks/hooks.js";
 
+
 // import 'maplibre-gl/dist/maplibre-gl.css';
 // import {Map} from 'maplibre-gl';
 
@@ -57,10 +58,10 @@ import Hooks from "./hooks/hooks.js";
 // });
 
 // console.log(map)
-console.log(Hooks)
-console.log(colocatedHooks)
+// console.log(Hooks)
+// console.log(colocatedHooks)
 const hooks =  {...Hooks, ...colocatedHooks};
-console.log(hooks)
+// console.log(hooks)
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 const liveSocket = new LiveSocket("/live", Socket, {
 
