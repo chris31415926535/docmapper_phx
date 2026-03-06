@@ -12,7 +12,7 @@ defmodule DocmapperPhxWeb.Endpoint do
   ]
 
   socket "/live", Phoenix.LiveView.Socket,
-    websocket: [connect_info: [session: @session_options]],
+    websocket: [connect_info: [:x_headers, :peer_data, session: @session_options]],
     longpoll: [connect_info: [session: @session_options]]
 
   # custom health checkL /health returns 200 OK, skips everything else

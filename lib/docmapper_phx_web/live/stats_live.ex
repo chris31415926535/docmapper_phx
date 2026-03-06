@@ -6,6 +6,10 @@ defmodule DocmapperPhxWeb.StatsLive do
   use Gettext, backend: DocmapperPhxWeb.Gettext
 
   def mount(_params, _session, socket) do
+    peer_data = get_connect_info(socket, :peer_data)
+    x_headers = get_connect_info(socket, :x_headers)
+    IO.inspect(peer_data, label: "peer_data")
+    IO.inspect(x_headers, label: "x_headers")
     {:ok, socket}
   end
 
