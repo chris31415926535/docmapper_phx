@@ -21,7 +21,7 @@
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
 import {Socket} from "phoenix"
-import LiveSocket from "phoenix_live_view/live_socket"
+import {LiveSocket} from "phoenix_live_view"
 import {hooks as colocatedHooks} from "phoenix-colocated/docmapper_phx" // eslint-disable-line
 import topbar from "../vendor/topbar"; // eslint-disable-line
 import Hooks from "./hooks/hooks.js";
