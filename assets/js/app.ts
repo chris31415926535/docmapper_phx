@@ -21,10 +21,12 @@
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
 import {Socket} from "phoenix"
-import {LiveSocket} from "phoenix_live_view"
-import {hooks as colocatedHooks} from "phoenix-colocated/docmapper_phx"
-import topbar from "../vendor/topbar"
+import LiveSocket from "phoenix_live_view/live_socket"
+import {hooks as colocatedHooks} from "phoenix-colocated/docmapper_phx" // eslint-disable-line
+import topbar from "../vendor/topbar"; // eslint-disable-line
 import Hooks from "./hooks/hooks.js";
+// import LiveSocket from "phoenix_live_view/assets/js/types/live_socket"
+// import LiveSocket from "phoenix_live_view/assets/js/types/live_socket"
 
 
 // import 'maplibre-gl/dist/maplibre-gl.css';
@@ -82,7 +84,19 @@ liveSocket.connect()
 // >> liveSocket.enableDebug()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
-window.liveSocket = liveSocket
+//
+
+window.liveSocket = liveSocket;
+
+declare global {
+    interface Window {
+        liveReloader?: any;
+    }
+
+    interface Event {
+        detail?: any;
+    }
+}
 
 // The lines below enable quality of life phoenix_live_reload
 // development features:
@@ -100,7 +114,7 @@ if (process.env.NODE_ENV === "development") {
     //
     //   * click with "c" key pressed to open at caller location
     //   * click with "d" key pressed to open at function component definition location
-    let keyDown
+    let keyDown: string | null;
     window.addEventListener("keydown", e => keyDown = e.key)
     window.addEventListener("keyup", _e => keyDown = null)
     window.addEventListener("click", e => {
