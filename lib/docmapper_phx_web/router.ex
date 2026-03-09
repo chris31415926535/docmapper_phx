@@ -2,6 +2,7 @@ defmodule DocmapperPhxWeb.Router do
   use DocmapperPhxWeb, :router
 
   pipeline :browser do
+    plug :check_headers
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
@@ -9,6 +10,22 @@ defmodule DocmapperPhxWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
+
+  def check_headers(conn, _opts) do
+    if Application.get_env(:docmapper_phx, :do_logging) == :prod do
+      ip = get_ip(get_req_header(conn, "x-forwaded-for"))
+      req_path = conn.request_path
+      # IO.inspect(ip, label: "*** IP: ")
+      # IO.inspect(req_path, label: "*** req_path: ")
+      DocmapperPhx.Logs.create_log(%{ip: ip, path: req_path})
+      # |> IO.inspect()
+    end
+
+    conn
+  end
+
+  def get_ip([ip]), do: ip
+  def get_ip(_), do: "unknown"
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -21,7 +38,6 @@ defmodule DocmapperPhxWeb.Router do
 
     live "/map", MapLive
     live "/stats", StatsLive
-    
   end
 
   # Other scopes may use custom stacks.

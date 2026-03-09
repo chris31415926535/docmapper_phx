@@ -23,6 +23,9 @@ end
 config :docmapper_phx, DocmapperPhxWeb.Endpoint,
   http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 
+# set flag to only do logs in production
+config :docmapper_phx, do_logging: config_env() == :prod
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
