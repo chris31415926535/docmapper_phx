@@ -12,14 +12,14 @@ defmodule DocmapperPhxWeb.Router do
   end
 
   def check_headers(conn, _opts) do
-    if Application.get_env(:docmapper_phx, :do_logging) == :prod do
+    # if Application.get_env(:docmapper_phx, :do_logging) == :prod do
       ip = get_ip(get_req_header(conn, "x-forwaded-for"))
       req_path = conn.request_path
       # IO.inspect(ip, label: "*** IP: ")
       # IO.inspect(req_path, label: "*** req_path: ")
       DocmapperPhx.Logs.create_log(%{ip: ip, path: req_path})
-      # |> IO.inspect()
-    end
+      |> IO.inspect()
+    # end
 
     conn
   end
